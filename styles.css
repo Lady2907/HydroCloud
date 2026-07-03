@@ -122,3 +122,131 @@ body {
 .metric { background: #f8fafc; border: 1px solid var(--line); border-radius: 10px; padding: 14px; text-align: center; }
 
 @keyframes blink { 50% { opacity: 0; } }
+
+/* ===================== VISTA INSTITUCIONAL (ADDONS) ===================== */
+
+/* Contenedor de Filtros alineado horizontalmente */
+.filters {
+  display: flex;
+  gap: 16px;
+  align-items: flex-end;
+  background: var(--card);
+  padding: 16px 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.filters .field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filters label {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.filters select, .filters input {
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--ink);
+  background: #f8fafc;
+  outline: none;
+  min-width: 160px;
+}
+
+/* Botón estilizado */
+.btn {
+  padding: 9px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-primary {
+  background: var(--navy);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: var(--navy-2);
+}
+
+/* Diseño en dos columnas para Gráficos */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.card-sub {
+  font-size: 12px;
+  color: var(--ink-soft);
+  margin-bottom: 14px;
+}
+
+/* Nota predictiva */
+.predict-note {
+  margin-top: 12px;
+  padding: 10px;
+  background: #f0f9ff;
+  border-left: 4px solid var(--cyan);
+  border-radius: 4px;
+  font-size: 12px;
+  color: #0369a1;
+  font-weight: 600;
+}
+
+/* Estilos de Tablas para Incidencias y Alertas */
+.alerts-table-card, .view #view-institucional .card {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  text-align: left;
+}
+
+th {
+  background: #f8fafc;
+  color: var(--ink-soft);
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 12px 16px;
+  border-bottom: 2px solid var(--line);
+  letter-spacing: 0.5px;
+}
+
+td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+  color: var(--ink);
+}
+
+tr:hover td {
+  background-color: #f8fafc;
+}
+
+/* Ajustes de títulos dentro de tarjetas */
+.card h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
