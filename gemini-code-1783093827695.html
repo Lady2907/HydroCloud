@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HydroCloud · Panel de Monitoreo</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+  <!-- Vinculación del archivo de estilos separado -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="brand">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" fill="url(#g)"/><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0284c7"/><stop offset="100%" stop-color="#06b6d4"/></linearGradient></defs></svg>
+    <div class="brand-text"><strong>HydroCloud</strong><span>by BlueFlow</span></div>
+  </div>
+  <div class="nav-item active" data-nav="inicio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Inicio</div>
+  <div class="nav-item" data-nav="puntos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 21s7-6.5 7-11a7 7 0 1 0-14 0c0 4.5 7 11 7 11z"/></svg>Puntos de Monitoreo</div>
+  <div class="nav-item" data-nav="alertas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.86 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.86a2 2 0 0 0-3.4 0z"/></svg>Alertas</div>
+  <div class="nav-item" data-nav="incidencias"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>Incidencias</div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div>
+      <h1 id="topTitle">Dashboard — Monitoreo en Tiempo Real</h1>
+      <div class="sub" id="topSub">Región Lima Este · actualizado hace instantes</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:16px;">
+      <div class="view-switch">
+        <button class="active" data-view="tiempo-real">Monitoreo en Tiempo Real</button>
+        <button data-view="institucional">Panel Institucional</button>
+      </div>
+      <div class="live-pill"><span class="live-dot"></span> En vivo · <span id="clock">--:--:--</span></div>
+      <div class="alerts-pill" id="alertsPill">⚠ 3 alertas críticas</div>
+    </div>
+  </div>
+
+  <!-- VISTA: MONITOREO EN TIEMPO REAL -->
+  <div class="view active" id="view-tiempo-real">
+    <div class="map-card">
+      <div class="map-head">
+        <div><strong style="font-size:13.5px;">Mapa de puntos de monitoreo</strong></div>
+        <div class="legend">
+          <span><i style="background:var(--ok);"></i> Normal</span>
+          <span><i style="background:var(--warn);"></i> En observación</span>
+          <span><i style="background:var(--bad);"></i> Alerta</span>
+        </div>
+      </div>
+      <svg id="mapSvg" viewBox="0 0 760 260"></svg>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div class="detail-head">
+        <h3 id="pointTitle">P-02 — Reservorio Norte</h3>
+        <span class="zone-tag" id="pointZone">Zona: Manchay Alto</span>
+      </div>
+      <div class="metrics" id="metricsGrid"></div>
+    </div>
+
+    <div class="alerts-table-card">
+      <div class="head">
+        <strong style="font-size:13.5px;">Últimas alertas automáticas</strong>
+      </div>
+      <table>
+        <thead><tr><th>Fecha</th><th>Hora</th><th>Punto de monitoreo</th><th>Parámetro afectado</th><th>Nivel de riesgo</th></tr></thead>
+        <tbody id="alertsBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- VISTA: PANEL INSTITUCIONAL -->
+  <div class="view" id="view-institucional">
+    <div class="filters">
+      <div class="field">
+        <label>Zona / Comunidad</label>
+        <select id="fZona">
+          <option>Todas las zonas</option>
+          <option>Zona Manchay</option>
+          <option>Zona Huaycan</option>
+          <option>Zona Jicamarca</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Desde</label>
+        <input type="date" id="fDesde" value="2026-06-01">
+      </div>
+      <div class="field">
+        <label>Hasta</label>
+        <input type="date" id="fHasta" value="2026-06-26">
+      </div>
+      <button class="btn btn-primary" id="applyFilters">Aplicar filtros</button>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>Historial de mediciones y tendencias predictivas</h3>
+        <div class="card-sub" id="chartSub">Zona Manchay · últimos 15 días</div>
+        <canvas id="trendChart" height="150"></canvas>
+        <div class="predict-note">↗ Tendencia predictiva: aumento de turbidez proyectado en los próximos 3 días.</div>
+      </div>
+      <div class="card">
+        <h3>Zonas críticas</h3>
+        <div class="card-sub">Reincidencia de alertas por zona</div>
+        <div id="zoneBars"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="head" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <h3 style="margin:0;">Gestión de incidencias</h3>
+      </div>
+      <table>
+        <thead><tr><th>ID incidencia</th><th>Zona</th><th>Fecha de creación</th><th>Técnico asignado</th><th>Estado de incidencia</th></tr></thead>
+        <tbody id="incidentsBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Vinculación de la lógica separada -->
+<script src="app.js"></script>
+</body>
+</html>
